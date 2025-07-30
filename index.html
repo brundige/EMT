@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVTS - Emergency Vehicle Tracking Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+            z-index: 2;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin-right: 1rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: #3b82f6;
+            transition: width 0.2s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #fff !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+            margin-left: 1rem;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            color: #fff !important;
+        }
+
+        .login-button::after {
+            display: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .feature:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            background: #f8fafc;
+            padding: 1rem;
+        }
+
+        .tech-showcase {
+            margin-top: 4rem;
+            background: #f8fafc;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+        }
+
+        .tech-showcase h3 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #1a1a1a;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tech-card {
+            background: #fff;
+            padding: 0;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .tech-logo {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin: 0;
+            display: block;
+        }
+
+        .tech-card-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tech-card h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .tech-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        #contact {
+            background: #f8fafc;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        #contact h2 {
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            min-width: 200px;
+        }
+
+        .contact-item strong {
+            display: block;
+            color: #3b82f6;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .honeypot {
+            position: absolute;
+            left: -9999px;
+            visibility: hidden;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .form-message.success {
+            background: #f0f9ff;
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+
+        .form-message.error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #f87171;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #fff;
+        }
+
+        .pricing-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .currency {
+            font-size: 1.2rem;
+            vertical-align: super;
+        }
+
+        .period {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .pricing-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pricing-features li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-features li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .pricing-note {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .pricing-cta {
+            display: inline-block;
+            background: #fff;
+            color: #3b82f6;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .pricing-cta:hover {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .pricing-footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-highlight {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            background: #f0f9ff;
+            display: inline-block;
+        }
+
+        .metric-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .metrics-features {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .metrics-feature {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .metrics-feature h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .metrics-feature p {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                height: 100vh;
+                min-height: 600px;
+            }
+
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for elements coming into view */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">EVTS | Emergency Vehicle Tracking Solutions</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="http://brundigital.io/login" class="login-button">Login</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <video src="assets/hero.mp4" autoplay muted loop></video>
+        <div class="hero-content">
+            <h1>EVTS</h1>
+            <p>Real-time tracking and management for ambulances, fire trucks, and police vehicles.</p>
+            <a href="#features" class="cta-button">Explore Features</a>
+        </div>
+    </div>
+
+    <section class="tech-showcase">
+        <h3>Powered by Industry-Leading Technology</h3>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <img src="assets/osrm.png" alt="OSRM - Open Source Routing Machine" class="tech-logo">
+                <div class="tech-card-content">
+                    <h4>OSRM Routing Engine</h4>
+                    <p>Advanced route optimization using the Open Source Routing Machine for fastest emergency response paths and real-time traffic awareness.</p>
+                </div>
+            </div>
+            <div class="tech-card">
+                <img src="assets/dash.png" alt="Dash Analytics Dashboard" class="tech-logo">
+                <div class="tech-card-content">
+                    <h4>Advanced Analytics Dashboard</h4>
+                    <p>Comprehensive real-time dashboards providing critical insights into fleet performance, response times, and operational metrics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <h2>Our Features</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>Live GPS Tracking</h3>
+                <p>Monitor vehicle locations in real-time for faster response times and improved safety coordination.</p>
+            </div>
+            <div class="feature">
+                <h3>Route Optimization</h3>
+                <p>AI-powered route suggestions that automatically find the fastest paths to emergency locations.</p>
+            </div>
+            <div class="feature">
+                <h3>Fleet Management Dashboard</h3>
+                <p>Comprehensive control center for dispatchers to monitor and manage all emergency vehicles efficiently.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="metrics">
+        <h2>Critical Metrics & Alerts</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">⏱️</div>
+                <h3>Response Time Tracking</h3>
+                <p>Monitor dispatch-to-arrival times with real-time analytics and historical trending to optimize emergency response performance.</p>
+                <div class="metric-highlight">
+                    <span class="metric-number">4.2</span>
+                    <span class="metric-label">min avg response</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">📍</div>
+                <h3>Scene Time Management</h3>
+                <p>Track on-scene duration and automatically alert dispatchers when vehicles exceed customizable time thresholds.</p>
+                <div class="metric-highlight">
+                    <span class="metric-number">18</span>
+                    <span class="metric-label">min avg scene time</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">🚨</div>
+                <h3>Customizable Alerts</h3>
+                <p>Set intelligent alerts for extended response times, prolonged scene time, or vehicles deviating from optimal routes.</p>
+                <div class="metric-highlight">
+                    <span class="metric-number">99.2%</span>
+                    <span class="metric-label">alert accuracy</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-features">
+            <div class="metrics-feature">
+                <h4>Real-Time Dashboards</h4>
+                <p>Live performance metrics visible to dispatchers and supervisors</p>
+            </div>
+            <div class="metrics-feature">
+                <h4>Historical Analytics</h4>
+                <p>Trend analysis and reporting for continuous improvement</p>
+            </div>
+            <div class="metrics-feature">
+                <h4>Custom Thresholds</h4>
+                <p>Set department-specific alert parameters for different emergency types</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <h2>Simple, Transparent Pricing</h2>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Setup Cost</h3>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="amount">200</span>
+                        <span class="period">per vehicle</span>
+                    </div>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li>Complete hardware installation</li>
+                        <li>System configuration</li>
+                        <li>Initial training session</li>
+                        <li>Data migration support</li>
+                    </ul>
+                </div>
+                <div class="pricing-note">One-time setup fee</div>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="pricing-header">
+                    <h3>Monthly Service</h3>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="amount">24</span>
+                        <span class="period">per vehicle/month</span>
+                    </div>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li>Real-time GPS tracking</li>
+                        <li>Route optimization</li>
+                        <li>24/7 monitoring</li>
+                        <li>Dashboard access</li>
+                        <li>Technical support</li>
+                        <li>Regular updates</li>
+                    </ul>
+                </div>
+                <a href="#contact" class="pricing-cta">Get Started</a>
+            </div>
+        </div>
+        <div class="pricing-footer">
+            <p>No long-term contracts • Cancel anytime • Volume discounts available</p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form class="contact-form" id="contactForm">
+            <!-- Honeypot field for spam protection -->
+            <input type="text" name="website" class="honeypot" tabindex="-1">
+
+            <div class="form-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required placeholder="Tell us about your emergency vehicle tracking needs..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+
+            <div class="form-message" id="formMessage"></div>
+        </form>
+    </section>
+
+    <script>
+        // Contact form handling with server-side email
+        (function() {
+            // Form submission tracking
+            let lastSubmissionTime = 0;
+            const minTimeBetweenSubmissions = 3000; // 3 seconds
+
+            document.getElementById('contactForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('Form submission started'); // Debug log
+
+                const currentTime = Date.now();
+                const submitBtn = document.getElementById('submitBtn');
+                const messageDiv = document.getElementById('formMessage');
+
+                // Rate limiting
+                if (currentTime - lastSubmissionTime < minTimeBetweenSubmissions) {
+                    console.log('Rate limited'); // Debug log
+                    showMessage('Please wait before submitting again.', 'error');
+                    return;
+                }
+
+                // Basic validation
+                const name = this.name.value.trim();
+                const email = this.email.value.trim();
+                const message = this.message.value.trim();
+
+                console.log('Form data:', { name, email, message }); // Debug log
+
+                if (!name || !email || !message) {
+                    console.log('Validation failed'); // Debug log
+                    showMessage('Please fill in all required fields.', 'error');
+                    return;
+                }
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    console.log('Email validation failed'); // Debug log
+                    showMessage('Please enter a valid email address.', 'error');
+                    return;
+                }
+
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+
+                // Prepare form data
+                const formData = {
+                    name: name,
+                    email: email,
+                    company: this.company.value.trim(),
+                    message: message,
+                    website: this.website.value // Honeypot field
+                };
+
+                console.log('Sending form data:', formData); // Debug log
+
+                try {
+                    // Send to server
+                    console.log('Making fetch request to /api/contact'); // Debug log
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    console.log('Response status:', response.status); // Debug log
+                    console.log('Response ok:', response.ok); // Debug log
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log('Server response:', result); // Debug log
+
+                    if (result.success) {
+                        showMessage(result.message, 'success');
+                        document.getElementById('contactForm').reset();
+                        lastSubmissionTime = currentTime;
+                    } else {
+                        showMessage(result.message, 'error');
+                    }
+
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    showMessage('Sorry, there was an error sending your message. Please check the console for details.', 'error');
+                }
+
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            });
+
+            function showMessage(text, type) {
+                const messageDiv = document.getElementById('formMessage');
+                messageDiv.textContent = text;
+                messageDiv.className = `form-message ${type}`;
+                messageDiv.style.display = 'block';
+
+                // Hide message after 8 seconds
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 8000);
+            }
+        })();
+    </script>
+
+    <footer>
+        &copy; 2025 EVTS - Emergency Vehicle Tracking Solutions. Made in Chattanooga, TN
+    </footer>
+</body>
+</html>

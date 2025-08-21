@@ -3,889 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVTS - Emergency Vehicle Tracking Solutions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #fafafa;
-            overflow-x: hidden;
-        }
-
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            min-height: 700px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .hero video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
-            z-index: 2;
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 1rem 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .logo {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            margin-right: 1rem;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #3b82f6;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background: #3b82f6;
-            transition: width 0.2s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .login-button {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: #fff !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
-            margin-left: 1rem;
-        }
-
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            color: #fff !important;
-        }
-
-        .login-button::after {
-            display: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            max-width: 800px;
-            padding: 0 2rem;
-        }
-
-        .hero-content h1 {
-            font-size: clamp(3rem, 8vw, 5rem);
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 1.5rem;
-            letter-spacing: -2px;
-            line-height: 1.1;
-        }
-
-        .hero-content p {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-            font-weight: 400;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: #fff;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
-        }
-
-        section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        section h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #1a1a1a;
-            letter-spacing: -1px;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature {
-            background: #fff;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 1px solid #f0f0f0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        }
-
-        .feature:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .feature h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 1rem;
-        }
-
-        .feature p {
-            color: #666;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .feature-image {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            margin-bottom: 1.5rem;
-            border-radius: 10px;
-            background: #f8fafc;
-            padding: 1rem;
-        }
-
-        .tech-showcase {
-            margin-top: 4rem;
-            background: #f8fafc;
-            padding: 3rem 2rem;
-            border-radius: 20px;
-        }
-
-        .tech-showcase h3 {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            color: #1a1a1a;
-        }
-
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .tech-card {
-            background: #fff;
-            padding: 0;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            position: relative;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tech-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .tech-logo {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            margin: 0;
-            display: block;
-        }
-
-        .tech-card-content {
-            padding: 2rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .tech-card h4 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-
-        .tech-card p {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        #contact {
-            background: #f8fafc;
-            border-radius: 20px;
-            text-align: center;
-        }
-
-        #contact h2 {
-            margin-bottom: 2rem;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-item {
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            min-width: 200px;
-        }
-
-        .contact-item strong {
-            display: block;
-            color: #3b82f6;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-            font-family: inherit;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .honeypot {
-            position: absolute;
-            left: -9999px;
-            visibility: hidden;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: #fff;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .form-message {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
-        }
-
-        .form-message.success {
-            background: #f0f9ff;
-            color: #1e40af;
-            border: 1px solid #3b82f6;
-        }
-
-        .form-message.error {
-            background: #fef2f2;
-            color: #dc2626;
-            border: 1px solid #f87171;
-        }
-
-        footer {
-            background: #1a1a1a;
-            color: #fff;
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.9rem;
-        }
-
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .pricing-card {
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pricing-card.featured {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: #fff;
-        }
-
-        .pricing-header {
-            margin-bottom: 1.5rem;
-        }
-
-        .pricing-header h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .price {
-            font-size: 2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-        }
-
-        .currency {
-            font-size: 1.2rem;
-            vertical-align: super;
-        }
-
-        .period {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .pricing-features {
-            margin-bottom: 1.5rem;
-        }
-
-        .pricing-features ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .pricing-features li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-features li::before {
-            content: '✔';
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: #3b82f6;
-            font-weight: 600;
-        }
-
-        .pricing-note {
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .pricing-cta {
-            display: inline-block;
-            background: #fff;
-            color: #3b82f6;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .pricing-cta:hover {
-            background: #3b82f6;
-            color: #fff;
-        }
-
-        .pricing-footer {
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .metric-card {
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .metric-highlight {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            background: #f0f9ff;
-            display: inline-block;
-        }
-
-        .metric-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #3b82f6;
-        }
-
-        .metric-label {
-            font-size: 0.875rem;
-            color: #666;
-        }
-
-        .metrics-features {
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .metrics-feature {
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .metrics-feature h4 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .metrics-feature p {
-            font-size: 0.875rem;
-            color: #666;
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .nav-links a {
-                font-size: 0.9rem;
-            }
-
-            .hero {
-                height: 100vh;
-                min-height: 600px;
-            }
-
-            .hero-content {
-                padding: 0 1rem;
-            }
-
-            section {
-                padding: 3rem 1rem;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-info {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .pricing-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Animation for elements coming into view */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .feature {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-    </style>
+    <title>rOBUst | V2X for Intelligent Cities</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <nav class="navbar">
-        <a href="#" class="logo">EVTS | Emergency Vehicle Tracking Solutions</a>
+       <a href="#" class="logo">rOBUst | <span style="font-family: 'Orbitron', 'Exo 2', Arial, sans-serif;">v2x for intelligent cities</span></a>
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#footer-contact">Contact</a></li>
             </ul>
-            <a href="http://brundigital.io/login" class="login-button">Login</a>
+            <a href="login.html" class="login-button">Login</a>
         </div>
     </nav>
 
     <div class="hero">
         <video src="assets/hero.mp4" autoplay muted loop></video>
         <div class="hero-content">
-            <h1>EVTS</h1>
-            <p>Real-time tracking and management for ambulances, fire trucks, and police vehicles.</p>
-            <a href="#features" class="cta-button">Explore Features</a>
+            <h1>rOBUst</h1>
+            <p>Affordable V2X hardware and software solutions that connect any vehicle to smart infrastructure. Arduino-powered, cellular and WiFi enabled.</p>
+            <a href="#features" class="cta-button">Explore V2X Solutions</a>
         </div>
     </div>
 
-    <section class="tech-showcase">
-        <h3>Powered by Industry-Leading Technology</h3>
-        <div class="tech-grid">
-            <div class="tech-card">
-                <img src="assets/osrm.png" alt="OSRM - Open Source Routing Machine" class="tech-logo">
-                <div class="tech-card-content">
-                    <h4>OSRM Routing Engine</h4>
-                    <p>Advanced route optimization using the Open Source Routing Machine for fastest emergency response paths and real-time traffic awareness.</p>
+    <section id="hardware">
+        <div class="hardware-hero">
+            <div class="hardware-hero-content">
+                <h2>Built on Open Hardware Architecture</h2>
+                <p class="tech-intro">Leveraging proven open-source platforms to deliver enterprise-grade V2X capabilities at accessible prices.</p>
+
+            </div>
+            <div class="hardware-hero-image">
+                <img src="assets/obd2.png" alt="rOBUst V2X Hardware Unit" class="hardware-device">
+            </div>
+        </div>
+
+        <div class="hardware-specs">
+            <div class="specs-container">
+                <div class="spec-column">
+                    <h4>Core Features</h4>
+                    <ul>
+                        <li>Dual-core ESP32 fully programmable SoC</li>
+                        <li>High performance Wi-Fi and Bluetooth communications</li>
+                        <li>G-force measurement and motion/orientation detection</li>
+                        <li>High accuracy and high update rate GNSS geolocation</li>
+                        <li>Access to all standard OBD-II PIDs, DTC, VIN from vehicle ECU</li>
+                        <li>CAN bus data sniffing</li>
+                        <li>Car battery voltage reading</li>
+                        <li>Data storage in internal Flash or microSD card (up to 32GB)</li>
+                        <li>Real-time data transmission over WiFi and 4G cellular network</li>
+                    </ul>
+                </div>
+
+                <div class="spec-column">
+                    <h4>Technical Specifications</h4>
+                    <ul>
+                        <li>Espressif ESP32 with 16MB Flash</li>
+                        <li>Built-in 802.11 b/g/n Wi-Fi and dual mode Bluetooth (classic and BLE)</li>
+                        <li>Integrated ICM-42627 motion sensor</li>
+                        <li>Integrated u-blox M10 GNSS module and antenna</li>
+                        <li>Integrated SIM7600A-H LTE CAT-4 or SIM7070G global LTE CAT-M cellular module</li>
+                        <li>Integrated microSD card reader</li>
+                        <li>Integrated buzzer</li>
+                        <li>Compact enclosure: 60x48x20mm</li>
+                    </ul>
                 </div>
             </div>
-            <div class="tech-card">
-                <img src="assets/dash.png" alt="Dash Analytics Dashboard" class="tech-logo">
-                <div class="tech-card-content">
-                    <h4>Advanced Analytics Dashboard</h4>
-                    <p>Comprehensive real-time dashboards providing critical insights into fleet performance, response times, and operational metrics.</p>
+        </div>
+    </section>
+
+    <section class="tech-showcase">
+        <div class="tech-hero">
+            <div class="tech-hero-content">
+                <h2>Custom V2X Dashboard </h2>
+                <p class="tech-intro"></p>
+            </div>
+        </div>
+
+        <!-- Full-width dashboard showcase -->
+        <div class="dashboard-showcase">
+            <div class="dashboard-image-container">
+                <img src="assets/dash_app.jpg" alt="V2X Dashboard Application Interface" class="dashboard-image">
+                <div class="dashboard-overlay">
+                    <div class="dashboard-overlay-content">
+                        <h3>Real-Time V2X Dashboard</h3>
+                        <p>Monitor vehicle data, V2X communications, and infrastructure connectivity in real-time through our App.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- V2X Communication Features -->
+        <div class="v2x-features-section">
+            <div class="v2x-features-container">
+                <div class="v2x-features-header">
+                    <h3>Comprehensive V2X Communication</h3>
+                    <p>Advanced vehicle-to-everything connectivity through cellular and network infrastructure</p>
+                </div>
+
+                <div class="v2x-features-grid">
+                    <div class="v2x-feature-item">
+                        <div class="v2x-feature-icon">📡</div>
+                        <h4>RSU Broadcasts</h4>
+                        <p>Receive roadside unit broadcasts via cellular backend for reliable infrastructure communication</p>
+                    </div>
+
+                    <div class="v2x-feature-item">
+                        <div class="v2x-feature-icon">📤</div>
+                        <h4>BSM Messages</h4>
+                        <p>Send Basic Safety Messages to traffic management systems for coordinated vehicle tracking</p>
+                    </div>
+
+                    <div class="v2x-feature-item">
+                        <div class="v2x-feature-icon">🚦</div>
+                        <h4>SPAT/MAP Data</h4>
+                        <p>Get signal phase and timing data from intersections via network for optimized routing</p>
+                    </div>
+
+                    <div class="v2x-feature-item">
+                        <div class="v2x-feature-icon">🚨</div>
+                        <h4>Emergency Alerts</h4>
+                        <p>Emergency vehicle alerts through dispatch systems for priority traffic management</p>
+                    </div>
+
+                    <div class="v2x-feature-item">
+                        <div class="v2x-feature-icon">⚡</div>
+                        <h4>Traffic Optimization</h4>
+                        <p>Traffic optimization based on network-wide data analysis and real-time conditions</p>
+                    </div>
+
+                    <div class="v2x-feature-item">
+                        <div class="v2x-feature-icon">🌤️</div>
+                        <h4>Weather Updates</h4>
+                        <p>Weather and road condition updates for enhanced safety and route planning</p>
+                    </div>
+
+                    <div class="v2x-feature-item">
+                        <div class="v2x-feature-icon">🚧</div>
+                        <h4>Work Zone Alerts</h4>
+                        <p>Work zone notifications and temporary traffic control information for driver awareness</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="timeline">
+        <div class="timeline-hero">
+            <div class="timeline-hero-content">
+                <h2>Project Development Timeline</h2>
+                <p class="timeline-intro">Our comprehensive roadmap from prototype to production, delivering enterprise-grade V2X solutions through proven development phases.</p>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-phases">
+                <div class="timeline-phase completed">
+                    <div class="phase-number">01</div>
+                    <div class="phase-content">
+                        <div class="phase-status">✓ COMPLETED</div>
+                        <h3>Hardware Setup & Basic Functionality</h3>
+                        <p class="phase-duration">Q1 2025 - 6 weeks</p>
+                        <p>ESP32 development environment, cellular connectivity, GNSS integration, and motion sensor calibration.</p>
+                        <ul class="phase-deliverables">
+                            <li>Functional ESP32 development platform</li>
+                            <li>Cellular data connectivity established</li>
+                            <li>High-accuracy GNSS positioning</li>
+                            <li>Calibrated motion detection system</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-phase completed">
+                    <div class="phase-number">02</div>
+                    <div class="phase-content">
+                        <div class="phase-status">✓ COMPLETED</div>
+                        <h3>V2X Message Processing</h3>
+                        <p class="phase-duration">Q1 2025 - 4 weeks</p>
+                        <p>ASN.1 message handling, Basic Safety Message generation, and infrastructure communication protocols.</p>
+                        <ul class="phase-deliverables">
+                            <li>SAE J2735 message structures</li>
+                            <li>Real-time BSM generation</li>
+                            <li>SPAT/MAP message processing</li>
+                            <li>Message validation and queuing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-phase">
+                    <div class="phase-number">03</div>
+                    <div class="phase-content">
+                        <h3>Mobile App Development</h3>
+                        <p class="phase-duration">Q2 2025 - 8 weeks</p>
+                        <p>Cross-platform mobile application with Bluetooth connectivity, real-time V2X data display, and user interface.</p>
+                        <ul class="phase-deliverables">
+                            <li>React Native mobile application</li>
+                            <li>Real-time vehicle data dashboard</li>
+                            <li>V2X safety alerts and notifications</li>
+                            <li>User settings and preferences</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-phase">
+                    <div class="phase-number">04</div>
+                    <div class="phase-content">
+                        <h3>Advanced Features</h3>
+                        <p class="phase-duration">Q2 2025 - 6 weeks</p>
+                        <p>Enhanced safety systems, predictive analytics, traffic optimization, and emergency vehicle detection.</p>
+                        <ul class="phase-deliverables">
+                            <li>Collision warning algorithms</li>
+                            <li>Traffic light optimization</li>
+                            <li>Emergency vehicle priority</li>
+                            <li>Predictive traffic analytics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-phase">
+                    <div class="phase-number">05</div>
+                    <div class="phase-content">
+                        <h3>Testing & Validation</h3>
+                        <p class="phase-duration">Q3 2025 - 8 weeks</p>
+                        <p>Comprehensive testing including lab validation, field testing, user experience optimization, and security implementation.</p>
+                        <ul class="phase-deliverables">
+                            <li>Laboratory testing protocols</li>
+                            <li>Field testing with real infrastructure</li>
+                            <li>User experience optimization</li>
+                            <li>Security and privacy implementation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-phase">
+                    <div class="phase-number">06</div>
+                    <div class="phase-content">
+                        <h3>Deployment & Production</h3>
+                        <p class="phase-duration">Q4 2025 - 6 weeks</p>
+                        <p>Production preparation, app store deployment, over-the-air updates, and ongoing maintenance systems.</p>
+                        <ul class="phase-deliverables">
+                            <li>Production-ready hardware units</li>
+                            <li>App store deployment</li>
+                            <li>OTA update system</li>
+                            <li>Customer support infrastructure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-summary">
+                <div class="summary-card">
+                    <h4>Total Development Time</h4>
+                    <p class="summary-stat">38 weeks</p>
+                    <p class="summary-detail">From prototype to market-ready product</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Expected Launch</h4>
+                    <p class="summary-stat">Q4 2025</p>
+                    <p class="summary-detail">Full commercial availability</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Milestone Tracking</h4>
+                    <p class="summary-stat">100%</p>
+                    <p class="summary-detail">Transparent progress updates</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="features">
-        <h2>Our Features</h2>
-        <div class="features">
-            <div class="feature">
-                <h3>Live GPS Tracking</h3>
-                <p>Monitor vehicle locations in real-time for faster response times and improved safety coordination.</p>
+        <div class="features-hero">
+            <div class="features-hero-content">
+                <h2>V2X Solutions for Every Vehicle</h2>
+                <p class="features-intro">Comprehensive connectivity solutions that transform any vehicle into an intelligent transportation node, regardless of make, model, or age.</p>
             </div>
-            <div class="feature">
-                <h3>Route Optimization</h3>
-                <p>AI-powered route suggestions that automatically find the fastest paths to emergency locations.</p>
+        </div>
+
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Affordable Hardware Upgrades</h3>
+                <p>Arduino-based V2X units with cellular and WiFi connectivity that retrofit to any vehicle at a fraction of traditional costs.</p>
+                <ul class="feature-benefits">
+                    <li>Universal OBD-II compatibility</li>
+                    <li>Plug-and-play installation</li>
+                    <li>Enterprise-grade at consumer prices</li>
+                    <li>No vehicle modification required</li>
+                </ul>
             </div>
-            <div class="feature">
-                <h3>Fleet Management Dashboard</h3>
-                <p>Comprehensive control center for dispatchers to monitor and manage all emergency vehicles efficiently.</p>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Smart Infrastructure Communication</h3>
+                <p>Enable vehicles to communicate with traffic signals, road sensors, and city management systems for optimized traffic flow.</p>
+                <ul class="feature-benefits">
+                    <li>Real-time traffic light coordination</li>
+                    <li>Emergency vehicle priority alerts</li>
+                    <li>Hazard and incident notifications</li>
+                    <li>Dynamic route optimization</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Open Architecture Platform</h3>
+                <p>Built on proven Arduino technology with expandable modules for custom applications and easy integration with existing systems.</p>
+                <ul class="feature-benefits">
+                    <li>Open-source development environment</li>
+                    <li>Modular hardware design</li>
+                    <li>Custom API integration</li>
+                    <li>Future-ready expandability</li>
+                </ul>
             </div>
         </div>
     </section>
 
     <section id="metrics">
-        <h2>Critical Metrics & Alerts</h2>
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-icon">⏱️</div>
-                <h3>Response Time Tracking</h3>
-                <p>Monitor dispatch-to-arrival times with real-time analytics and historical trending to optimize emergency response performance.</p>
-                <div class="metric-highlight">
-                    <span class="metric-number">4.2</span>
-                    <span class="metric-label">min avg response</span>
+        <div class="metrics-hero">
+            <div class="metrics-hero-content">
+                <h2>Smart Infrastructure Benefits</h2>
+                <p class="metrics-intro">Proven results from V2X implementation demonstrating significant improvements in traffic efficiency, safety, and cost-effectiveness.</p>
+            </div>
+        </div>
+
+        <div class="metrics-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🚦</div>
+                <div class="stat-content">
+                    <h3>Traffic Flow Optimization</h3>
+                    <p>V2X communication with smart traffic signals reduces wait times and improves overall traffic efficiency through real-time coordination.</p>
+                    <div class="stat-highlight">
+                        <span class="stat-number">35%</span>
+                        <span class="stat-label">reduction in wait times</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="metric-card">
-                <div class="metric-icon">📍</div>
-                <h3>Scene Time Management</h3>
-                <p>Track on-scene duration and automatically alert dispatchers when vehicles exceed customizable time thresholds.</p>
-                <div class="metric-highlight">
-                    <span class="metric-number">18</span>
-                    <span class="metric-label">min avg scene time</span>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <h3>Cost-Effective Upgrades</h3>
+                    <p>Arduino-based architecture delivers enterprise V2X capabilities at consumer-friendly prices, making smart infrastructure accessible to all.</p>
+                    <div class="stat-highlight">
+                        <span class="stat-number">80%</span>
+                        <span class="stat-label">lower cost vs alternatives</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="metric-card">
-                <div class="metric-icon">🚨</div>
-                <h3>Customizable Alerts</h3>
-                <p>Set intelligent alerts for extended response times, prolonged scene time, or vehicles deviating from optimal routes.</p>
-                <div class="metric-highlight">
-                    <span class="metric-number">99.2%</span>
-                    <span class="metric-label">alert accuracy</span>
+            <div class="stat-card">
+                <div class="stat-icon">🔧</div>
+                <div class="stat-content">
+                    <h3>Easy Installation</h3>
+                    <p>Simple plug-and-play installation with cellular and WiFi connectivity ensures rapid deployment across any vehicle fleet.</p>
+                    <div class="stat-highlight">
+                        <span class="stat-number">30</span>
+                        <span class="stat-label">minute installation</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="metrics-features">
-            <div class="metrics-feature">
-                <h4>Real-Time Dashboards</h4>
-                <p>Live performance metrics visible to dispatchers and supervisors</p>
+        <div class="metrics-capabilities">
+            <div class="capability-card">
+                <h4>Vehicle-to-Infrastructure (V2I)</h4>
+                <p>Connect to traffic lights, road sensors, and city management systems for intelligent traffic coordination and safety improvements.</p>
             </div>
-            <div class="metrics-feature">
-                <h4>Historical Analytics</h4>
-                <p>Trend analysis and reporting for continuous improvement</p>
+            <div class="capability-card">
+                <h4>Vehicle-to-Vehicle (V2V)</h4>
+                <p>Enable direct communication between equipped vehicles for collision avoidance, emergency alerts, and cooperative driving.</p>
             </div>
-            <div class="metrics-feature">
-                <h4>Custom Thresholds</h4>
-                <p>Set department-specific alert parameters for different emergency types</p>
+            <div class="capability-card">
+                <h4>Open Source Expandability</h4>
+                <p>Arduino platform allows custom modules and integrations for specific needs, ensuring long-term adaptability and growth.</p>
             </div>
         </div>
     </section>
 
     <section id="pricing">
-        <h2>Simple, Transparent Pricing</h2>
+        <h2>Community Support & Early Access</h2>
+        <p>Join the community of cities pioneering intelligent transportation infrastructure. Get early access to city-developed V2X technology with community support options.</p>
         <div class="pricing-cards">
             <div class="pricing-card">
                 <div class="pricing-header">
-                    <h3>Setup Cost</h3>
+                    <h3>Basic</h3>
                     <div class="price">
                         <span class="currency">$</span>
-                        <span class="amount">200</span>
-                        <span class="period">per vehicle</span>
+                        <span class="amount">999</span>
+                        <span class="period">early access</span>
                     </div>
+                    <p class="price-subtitle">Community development support</p>
                 </div>
                 <div class="pricing-features">
                     <ul>
-                        <li>Complete hardware installation</li>
-                        <li>System configuration</li>
-                        <li>Initial training session</li>
-                        <li>Data migration support</li>
+                        <li>Single V2X hardware unit</li>
+                        <li>Basic installation kit</li>
+                        <li>Essential software package</li>
+                        <li>24-month hardware warranty</li>
+                        <li>Community forum support</li>
+                        <li>Standard OBD-II compatibility</li>
                     </ul>
                 </div>
-                <div class="pricing-note">One-time setup fee</div>
+                <div class="pricing-note">Perfect for pilot programs</div>
+                <a href="#contact" class="pricing-cta">Get Community Access</a>
             </div>
 
             <div class="pricing-card featured">
+                <div class="pricing-badge">Most Popular</div>
                 <div class="pricing-header">
-                    <h3>Monthly Service</h3>
+                    <h3>Civic Lite</h3>
                     <div class="price">
                         <span class="currency">$</span>
-                        <span class="amount">24</span>
-                        <span class="period">per vehicle/month</span>
+                        <span class="amount">1,800</span>
+                        <span class="period">early access</span>
                     </div>
+                    <p class="price-subtitle">Enhanced city deployment package</p>
                 </div>
                 <div class="pricing-features">
                     <ul>
-                        <li>Real-time GPS tracking</li>
-                        <li>Route optimization</li>
-                        <li>24/7 monitoring</li>
-                        <li>Dashboard access</li>
-                        <li>Technical support</li>
-                        <li>Regular updates</li>
+                        <li>Two V2X hardware units</li>
+                        <li>Professional installation service</li>
+                        <li>Advanced software suite</li>
+                        <li>Included SIM cards (12 months)</li>
+                        <li>24-month hardware warranty</li>
+                        <li>Priority community support</li>
+                        <li>Free firmware updates</li>
                     </ul>
                 </div>
-                <a href="#contact" class="pricing-cta">Get Started</a>
+                <div class="pricing-note">Ideal for small city deployments</div>
+                <a href="#contact" class="pricing-cta">Get Community Access</a>
+            </div>
+
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Civic Enterprise</h3>
+                    <div class="price">
+                        <span class="currency">$</span>
+                        <span class="amount">1,400</span>
+                        <span class="period">per unit</span>
+                    </div>
+                    <p class="price-subtitle">Heavy-duty vehicle solutions</p>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li>Heavy-duty V2X hardware unit</li>
+                        <li>J1939 protocol support</li>
+                        <li>White-glove installation</li>
+                        <li>Enterprise software platform (12 months)</li>
+                        <li>Emergency vehicle preemption</li>
+                        <li>Device management portal</li>
+                        <li>24-month hardware warranty</li>
+                        <li>Dedicated city support</li>
+                    </ul>
+                </div>
+                <div class="pricing-note">For emergency & heavy vehicles</div>
+                <a href="#contact" class="pricing-cta">Get Community Access</a>
             </div>
         </div>
         <div class="pricing-footer">
-            <p>No long-term contracts • Cancel anytime • Volume discounts available</p>
+            <p><strong>City-Developed Technology</strong> • In Development • Community-driven support</p>
         </div>
     </section>
 
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <form class="contact-form" id="contactForm">
-            <!-- Honeypot field for spam protection -->
-            <input type="text" name="website" class="honeypot" tabindex="-1">
+    <footer class="main-footer" id="footer-contact">
+        <div class="footer-content">
+            <!-- Contact Form Section -->
+            <div class="footer-section">
+                <h3>Get in Touch</h3>
+                <p class="footer-description">Ready to transform your vehicle with V2X technology? Contact us for early access and partnership opportunities.</p>
 
-            <div class="form-group">
-                <label for="name">Name *</label>
-                <input type="text" id="name" name="name" required>
+                <form class="footer-contact-form" id="contactForm">
+                    <!-- Honeypot field for spam protection -->
+                    <input type="text" name="website" class="honeypot" tabindex="-1">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Company/Organization</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required placeholder="Tell us about your V2X needs and vehicle fleet requirements..."></textarea>
+                    </div>
+
+                    <button type="submit" class="footer-submit-btn" id="submitBtn">Send Message</button>
+                    <div class="form-message" id="formMessage"></div>
+                </form>
             </div>
 
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required>
+            <!-- Company Info & Links Section -->
+            <div class="footer-section">
+                <div class="company-info">
+                    <div class="footer-logo">
+                        <h2>rOBUst</h2>
+                        <p>V2X for Intelligent Cities</p>
+                    </div>
+                    <p class="company-description">
+                        Affordable V2X hardware and software solutions that connect any vehicle to smart infrastructure.
+                        Built on open Arduino architecture with cellular and WiFi connectivity.
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#hardware">Hardware</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#timeline">Development</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="link-group">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="mailto:support@robust-v2x.com">Technical Support</a></li>
+                            <li><a href="mailto:partnerships@robust-v2x.com">Partnerships</a></li>
+                            <li><a href="#contact">Contact Us</a></li>
+                            <li><a href="/docs">Documentation</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="link-group">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="https://github.com/robust-v2x" target="_blank" rel="noopener">GitHub</a></li>
+                            <li><a href="https://kickstarter.com/projects/robust-v2x" target="_blank" rel="noopener">Kickstarter</a></li>
+                            <li><a href="https://discord.gg/robust-v2x" target="_blank" rel="noopener">Discord</a></li>
+                            <li><a href="https://twitter.com/robust_v2x" target="_blank" rel="noopener">Twitter</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Call-to-Action Buttons -->
+                <div class="footer-cta">
+                    <a href="https://kickstarter.com/projects/robust-v2x" target="_blank" rel="noopener" class="cta-kickstarter">
+                        <span class="cta-icon">🚀</span>
+                        <div class="cta-content">
+                            <strong>Back us on Kickstarter</strong>
+                            <span>Early bird pricing available</span>
+                        </div>
+                    </a>
+                    <a href="https://github.com/robust-v2x" target="_blank" rel="noopener" class="cta-github">
+                        <span class="cta-icon">⭐</span>
+                        <div class="cta-content">
+                            <strong>Star us on GitHub</strong>
+                            <span>Open source V2X platform</span>
+                        </div>
+                    </a>
+                </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="company">Company</label>
-                <input type="text" id="company" name="company">
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2025 rOBUst - V2X Solutions for Intelligent Cities. Made in Chattanooga, TN</p>
+                <div class="footer-legal">
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/cookies">Cookie Policy</a>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="message">Message *</label>
-                <textarea id="message" name="message" required placeholder="Tell us about your emergency vehicle tracking needs..."></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
-
-            <div class="form-message" id="formMessage"></div>
-        </form>
-    </section>
+        </div>
+    </footer>
 
     <script>
         // Contact form handling with server-side email
@@ -997,9 +694,5 @@
             }
         })();
     </script>
-
-    <footer>
-        &copy; 2025 EVTS - Emergency Vehicle Tracking Solutions. Made in Chattanooga, TN
-    </footer>
 </body>
 </html>

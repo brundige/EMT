@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | rOBUst V2X</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">rOBUst</div>
+                <div class="login-subtitle">V2X for Intelligent Cities</div>
+                <h1 class="login-title">City Portal Login</h1>
+                <p class="login-description">Access your city's V2X management dashboard</p>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="city" class="form-label">Select City</label>
+                    <select id="city" name="city" class="form-select" required>
+                        <option value="">Choose your city...</option>
+                        <option value="chattanooga">Chattanooga, TN</option>
+                        <option value="nashville">Nashville, TN</option>
+                        <option value="knoxville">Knoxville, TN</option>
+                        <option value="memphis">Memphis, TN</option>
+                        <option value="atlanta">Atlanta, GA</option>
+                        <option value="birmingham">Birmingham, AL</option>
+                        <option value="huntsville">Huntsville, AL</option>
+                        <option value="louisville">Louisville, KY</option>
+                        <option value="lexington">Lexington, KY</option>
+                        <option value="asheville">Asheville, NC</option>
+                        <option value="charlotte">Charlotte, NC</option>
+                        <option value="raleigh">Raleigh, NC</option>
+                        <option value="columbia">Columbia, SC</option>
+                        <option value="charleston">Charleston, SC</option>
+                        <option value="greenville">Greenville, SC</option>
+                        <option value="jacksonville">Jacksonville, FL</option>
+                        <option value="orlando">Orlando, FL</option>
+                        <option value="tampa">Tampa, FL</option>
+                        <option value="miami">Miami, FL</option>
+                        <option value="richmond">Richmond, VA</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="Enter your city access password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-button" id="loginButton">
+                    Access Dashboard
+                </button>
+
+                <div class="login-message" id="loginMessage"></div>
+            </form>
+
+            <a href="index.html" class="back-link">
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const citySelect = document.getElementById('city');
+            const passwordInput = document.getElementById('password');
+            const loginButton = document.getElementById('loginButton');
+            const messageDiv = document.getElementById('loginMessage');
+
+            const city = citySelect.value;
+            const password = passwordInput.value;
+
+            // Basic validation
+            if (!city || !password) {
+                showMessage('Please select a city and enter a password.', 'error');
+                return;
+            }
+
+            // Disable button during login attempt
+            loginButton.disabled = true;
+            loginButton.textContent = 'Logging in...';
+
+            // Simulate login process (replace with actual authentication)
+            setTimeout(() => {
+                // For demo purposes, accept any password for registered cities
+                // In production, this would make an API call to authenticate
+                if (password.length >= 6) {
+                    showMessage(`Welcome! Redirecting to ${citySelect.options[citySelect.selectedIndex].text} dashboard...`, 'success');
+
+                    // Redirect to dashboard after successful login
+                    setTimeout(() => {
+                        // In production, this would redirect to the actual dashboard
+                        window.location.href = `dashboard.html?city=${city}`;
+                    }, 2000);
+                } else {
+                    showMessage('Invalid password. Password must be at least 6 characters.', 'error');
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Access Dashboard';
+                }
+            }, 1500);
+        });
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('loginMessage');
+            messageDiv.textContent = text;
+            messageDiv.className = `login-message ${type}`;
+            messageDiv.style.display = 'block';
+
+            // Hide error messages after 5 seconds, keep success messages
+            if (type === 'error') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>

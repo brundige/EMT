@@ -1,15 +1,17 @@
-
+version: '3.8'
 
 services:
   evts-app:
     build: .
     ports:
-      - "3000:3000"
+      - "80:3000"  # Map port 80 to container port 3000
     environment:
       - NODE_ENV=production
       - EMAIL_USER=${EMAIL_USER}
       - EMAIL_PASS=${EMAIL_PASS}
       - PORT=3000
+    env_file:
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "node", "healthcheck.js"]

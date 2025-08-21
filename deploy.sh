@@ -8,7 +8,7 @@ set -e
 echo "🚀 Starting EVTS deployment..."
 
 # Configuration
-REPO_URL="git@github.com:yourusername/evts-website.git"  # Update this with your actual repo URL
+REPO_URL="https://github.com/brundige/EMT.git"  # Fixed to use HTTPS
 APP_DIR="/opt/evts"
 DOCKER_IMAGE="evts-app"
 

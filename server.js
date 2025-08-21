@@ -98,14 +98,14 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     const emailContent = {
       from: process.env.EMAIL_USER,
       to: 'chrisbrundige@gmail.com',
-      subject: `EVTS Contact Form - New Message from ${name}`,
+      subject: `Precept Contact Form - New Message from ${name}`,
       html: `
-        <h2>New Contact Form Submission - EVTS</h2>
+        <h2>New Contact Form Submission - Precept</h2>
         <div style="background: #f8fafc; padding: 20px; border-radius: 8px; font-family: Arial, sans-serif;">
           <h3 style="color: #3b82f6; margin-bottom: 15px;">Contact Details</h3>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+          <p><strong>Precept:</strong> ${company || 'Not provided'}</p>
           
           <h3 style="color: #3b82f6; margin: 20px 0 15px 0;">Message</h3>
           <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #3b82f6;">
@@ -122,11 +122,11 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
       `,
       // Also include a plain text version
       text: `
-EVTS Contact Form Submission
+Precept Contact Form Submission
 
 Name: ${name}
 Email: ${email}
-Company: ${company || 'Not provided'}
+Precept: ${company || 'Not provided'}
 
 Message:
 ${message}

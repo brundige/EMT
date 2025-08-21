@@ -1,11 +1,19 @@
 node_modules
 npm-debug.log
+.env
+.env.local
+.env.example
 .git
 .gitignore
 README.md
-.env
-.nyc_output
-coverage
-.DS_Store
+Dockerfile
+.dockerignore
+docker-compose.yml
+deploy.sh
 *.log
+.DS_Store
+.vscode
+.idea
+*.tmp
+*.temp
 
